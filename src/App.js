@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import SupportAgentForm from './components/SupportAgentForm';
+import SupportTicketForm from './components/SupportTicketForm';
+import TicketTable from './components/TicketTable';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/support-agent">Support Agent</Link>
+            </li>
+            <li>
+              <Link to="/support-ticket">Support Ticket</Link>
+            </li>
+            <li>
+              <Link to="/view-tickets">View Tickets</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/support-agent" element={<SupportAgentForm />}> </Route>
+          <Route path="/support-ticket" element={<SupportTicketForm />}> </Route>
+          <Route path="/view-tickets" element={<TicketTable />}></Route>
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
