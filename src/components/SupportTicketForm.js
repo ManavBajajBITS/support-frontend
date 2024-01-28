@@ -12,6 +12,7 @@ const CreateTicketForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -36,21 +37,21 @@ const CreateTicketForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
         try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/support-tickets`, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
-        if (response.ok) {
-            // Ticket created successfully, navigate back to home
-            history.push('/');
-        } else {
-            console.error('Failed to create ticket');
-        }
+            setIsSubmitted(true);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/support-tickets`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            if (response.ok) {
+                history.push('/');
+            } else {
+                console.error('Failed to create ticket');
+            }
         } catch (error) {
-        console.error('Error creating ticket:', error);
+            console.error('Error creating ticket:', error);
         }
     } else {
         setErrors(errors);
@@ -111,7 +112,7 @@ const CreateTicketForm = () => {
           </label>
         </div>
       </div>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} disabled={isSubmitted}>{isSubmitted ? 'Submitted' : 'Submit'}</button>
     </div>
   );
 };

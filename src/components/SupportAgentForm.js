@@ -11,6 +11,7 @@ const CreateAgentForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -53,21 +54,21 @@ const CreateAgentForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
         try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/support-agents`, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
-        if (response.ok) {
-            // Agent created successfully, navigate back to home
-            history.push('/');
-        } else {
-            console.error('Failed to create agent');
-        }
+            setIsSubmitted(true);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/support-agents`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            if (response.ok) {
+                history.push('/');
+            } else {
+                console.error('Failed to create agent');
+            }
         } catch (error) {
-        console.error('Error creating agent:', error);
+            console.error('Error creating agent:', error);
         }
     } else {
         // Form has errors, display error messages
@@ -98,7 +99,7 @@ const CreateAgentForm = () => {
         <textarea name="description" value={formData.description} onChange={handleChange} />
         {errors.description && <div className="error">{errors.description}</div>}
       </div>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} disabled={isSubmitted}>{isSubmitted ? 'Submitted' : 'Submit'}</button>
     </div>
   );
 };
