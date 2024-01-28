@@ -74,7 +74,6 @@ const TicketTable = () => {
   if (error) {
     return <div>{error}</div>;
   }
-  console.log("tttttttttttttttttttt", tickets)
   return (
     <div>
       <h2>Tickets</h2>
